@@ -5,6 +5,10 @@ import jogo.JogoCollection;
 import excecoes.*;
 
 public class Usuario {
+	public static final String NOOB = "noob";
+	public static final String VETERANO = "veterano";
+	
+	
 	private String username;
 	private String nome;
 	private double money;
@@ -12,12 +16,17 @@ public class Usuario {
 	private TipoUsuario tipo;
 	private JogoCollection jogos;
 	
-	public Usuario(String username, String nome) throws InvalidFieldValueException  {
+	public Usuario(String username, String nome, String tipoUsuario) throws InvalidFieldValueException  {
 		this.username = username;
 		this.nome = nome;
 		money = 0;
 		x2pPoints = 0;
-		tipo = new Noob();
+		if (tipoUsuario.equals(VETERANO)){
+			tipo = new Veterano();
+		} else {
+			tipo = new Noob();
+		}
+		
 		jogos = new JogoCollection();
 	}
 	

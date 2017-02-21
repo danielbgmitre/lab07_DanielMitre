@@ -9,13 +9,17 @@ public class Loja {
 	private UsuarioCollection usuarios;
 	
 	public static void main(String[] args) {
-		args = new String[] { "loja.Facade", "acceptance_tests/us1.txt", "acceptance_tests/us2.txt",  "acceptance_test/us3.txt" };
+		args = new String[] { "loja.Loja", "acceptance_tests/us1.txt", "acceptance_tests/us2.txt",  "acceptance_test/us3.txt" };
 		EasyAccept.main(args);
 
 	}
 	
 	public Loja(){
 		usuarios = new UsuarioCollection();
+	}
+	
+	public boolean criaUsuario(String nome, String login, String tipoUsuario){
+		
 	}
 	
 	public boolean addUsuario(Usuario user) throws DuplicatedUsernameException, InvalidFieldValueException {
