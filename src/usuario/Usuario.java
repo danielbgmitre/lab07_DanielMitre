@@ -4,10 +4,7 @@ import jogo.Jogo;
 import jogo.JogoCollection;
 import excecoes.*;
 
-public class Usuario {
-	public static final String NOOB = "noob";
-	public static final String VETERANO = "veterano";
-	
+public class Usuario {	
 	
 	private String username;
 	private String nome;
@@ -16,16 +13,14 @@ public class Usuario {
 	private TipoUsuario tipo;
 	private JogoCollection jogos;
 	
-	public Usuario(String username, String nome, String tipoUsuario) throws InvalidFieldValueException  {
+	public Usuario(String username, String nome, TipoUsuario tipoUsuario) throws InvalidFieldValueException  {
 		this.username = username;
 		this.nome = nome;
 		money = 0;
-		x2pPoints = 0;
-		if (tipoUsuario.equals(VETERANO)){
-			tipo = new Veterano();
-		} else {
-			tipo = new Noob();
-		}
+		
+		this.tipo = tipoUsuario;
+		
+		x2pPoints = this.tipo.getStartingPoints();
 		
 		jogos = new JogoCollection();
 	}
@@ -92,7 +87,8 @@ public class Usuario {
 	public boolean compraJogo(Jogo jogo) throws InvalidFieldValueException  {
 		if (tipo.podeComprar(money, jogo)){
 			this.money -= (tipo.calculaPreco(jogo));
-			jogos.add(jogo.getClone());
+			//jogos.add(jogo.getClone());
+			jogos.add(jogo);
 			addX2p(tipo.pontosPorCompra(jogo));
 			return true;
 		} else {
@@ -100,6 +96,7 @@ public class Usuario {
 		}
 	}
 
+	@Deprecated
 	public void registraJogada(String nomeDoJogo, int score, boolean zerou) throws FakeHighscoreException, GameNotFoundException, InvalidFieldValueException  {
 		if (nomeDoJogo == null || nomeDoJogo.trim().equals("")){
 			throw new InvalidFieldValueException();
@@ -108,9 +105,23 @@ public class Usuario {
 		if (jogo == null){
 			throw new GameNotFoundException();
 		} 
-		addX2p(jogo.registraJogada(score, zerou));
+		int points = jogo.registraJogada(score, zerou);
+		points += tipo.recompensar(jogo, score, zerou);
+		points -= tipo.punir(jogo, score, zerou);
 		
+		addX2p(points);
 	}
+	
+	public int recompensar(String nomeDoJogo, int scoreObtido, boolean zerou){
+		Jogo jogo = jogos.get(nomeDoJogo);
+		return tipo.recompensar(jogo, scoreObtido, zerou);		
+	}
+	
+	public int punir(String nomeDoJogo, int scoreObtido, boolean zerou){
+		Jogo jogo = jogos.get(nomeDoJogo);
+		return tipo.punir(jogo, scoreObtido, zerou);		
+	}
+	
 
 	public void listarJogos() {
 		System.out.println("Lista de Jogos:");

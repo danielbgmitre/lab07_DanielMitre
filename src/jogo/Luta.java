@@ -28,10 +28,4 @@ public class Luta extends Jogo {
 		
 		return bonusX2P;
 	}
-
-	public Jogo getClone() throws InvalidFieldValueException {
-		Luta clone = new Luta(getNome(), getPreco());
-		clone.setEstilos(getEstilos());
-		return clone;
-	}
 }

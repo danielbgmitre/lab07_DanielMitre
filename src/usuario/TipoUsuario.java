@@ -4,7 +4,7 @@ import jogo.Jogo;
 import excecoes.*;
 
 public abstract class TipoUsuario {
-	private String nomeTipo = "Default";
+	private String nomeTipo = "Jogador Padrao";
 	private int startingPoints = 0;
 	
 	public String getTipo(){
@@ -73,5 +73,9 @@ public abstract class TipoUsuario {
 	}
 
 	public abstract int pontosPorCompra(Jogo jogo);
+
+	public abstract int recompensar(Jogo jogo, int scoreObtido, boolean zerou);
+
+	public abstract int punir(Jogo jogo, int scoreObtido, boolean zerou);
 	
 }

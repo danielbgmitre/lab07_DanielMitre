@@ -29,7 +29,7 @@ public class Jogo {
 		estilos = new HashSet<Jogabilidade>();
 		
 		this.nome = nome;
-		this.preco = preco;
+		setPreco(preco);
 		
 		highestScore = timesPlayed = timesFinished = 0;
 	}
@@ -50,16 +50,19 @@ public class Jogo {
 		tipoJogo = s;
 	}
 	
-	/**
+	
+	
+	/*
 	 * cria um objeto clonado a partir de si (deve ser sobrescrito nas subclasses)
 	 * @return clone de si proprio
 	 * @throws InvalidFieldValueException ao tentar copiar um objeto com nome ou preco invalido
-	 */
+	 *
+	
 	public Jogo getClone() throws InvalidFieldValueException {
 		Jogo clone = new Jogo(nome, preco);
 		clone.setEstilos(getEstilos());
 		return clone;
-	}
+	}*/
 	
 	public String getNome() {
 		return nome;
@@ -81,7 +84,6 @@ public class Jogo {
 		this.preco = preco;
 	}
 	
-	
 	public void addEstilo(Jogabilidade estilo){
 		estilos.add(estilo);
 	}
@@ -98,14 +100,17 @@ public class Jogo {
 		return copiaEstilos;
 	}
 
+	public boolean hasJogabilidade(Jogabilidade jogabilidade){
+		return estilos.contains(jogabilidade);
+	}
 	
-	/**
+	/*
 	 * define os novos estilos (utilizado ao criar um clone)
 	 * @param estilos hashset recebido pelo getEstilos()
-	 */
+	 *
 	public void setEstilos(HashSet<Jogabilidade> estilos){
 		this.estilos = estilos;
-	}
+	}*/
 
 	public int getHighestScore() {
 		return highestScore;
@@ -135,6 +140,8 @@ public class Jogo {
 		timesFinished++;
 	}
 
+	/*
+	@Deprecated
 	public int registraJogada(int pontos, boolean zerou) throws InvalidFieldValueException, FakeHighscoreException {
 		if (pontos < 0){
 			throw new InvalidFieldValueException();
@@ -151,8 +158,7 @@ public class Jogo {
 		
 		return 0; //x2p
 	}
-	
-
+	*/
 
 
 	@Override
@@ -175,6 +181,23 @@ public class Jogo {
 		if (!nome.equals(other.nome))
 			return false;
 		return true;
+	}
+
+	public int registraJogada(int pontos, boolean zerou) throws InvalidFieldValueException, FakeHighscoreException {
+		if (pontos < 0){
+			throw new InvalidFieldValueException();
+		}
+		
+		increaseTimesPlayed();
+		
+		if (pontos > highestScore){
+			setHighestScore(pontos);
+		}
+		if (zerou){
+			increaseTimesFinised();
+		}
+		
+		return 0; //x2p
 	}
 	
 	 

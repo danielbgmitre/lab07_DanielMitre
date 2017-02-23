@@ -67,8 +67,8 @@ public class UsuarioCollection {
 				System.out.println("--------------------------------------------");
 			}
 			primeiro = false;
-			System.out.println(u.getUsername());
-			System.out.println(u.getNome() + " - " + u.getTipoName());
+			System.out.println(u.getTipoName() + ": " + u.getUsername());
+			System.out.println(u.getNome() + " - " + u.getX2p());
 			u.listarJogos();
 		}
 	}

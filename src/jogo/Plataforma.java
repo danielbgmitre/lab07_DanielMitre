@@ -9,6 +9,7 @@ public class Plataforma extends Jogo {
 		setTipoJogo("Plataforma");
 	}
 
+	
 	@Override
 	public int registraJogada(int score, boolean zerou) throws InvalidFieldValueException, FakeHighscoreException{
 		if (score < 0){
@@ -27,12 +28,5 @@ public class Plataforma extends Jogo {
 			
 		}
 		return 0;
-	}
-
-	@Override
-	public Jogo getClone() throws InvalidFieldValueException {
-		Plataforma clone = new Plataforma(getNome(), getPreco());
-		clone.setEstilos(getEstilos());
-		return clone;
 	}
 }
