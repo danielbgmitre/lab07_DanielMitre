@@ -3,13 +3,7 @@ package usuario;
 import jogo.*;
 import excecoes.*;
 
-public class Veterano extends TipoUsuario {	
-	
-	public Veterano() throws InvalidFieldValueException  {
-		super();
-		setStartingPoints(1000);
-		setTipo("Jogador Veterano");
-	}
+public class Veterano implements TipoUsuario {	
 	
 	@Override
 	public double calculaDesconto(Jogo jogo) {
@@ -43,5 +37,32 @@ public class Veterano extends TipoUsuario {
 			points += 20;
 		}
 		return points;
+	}
+
+	@Override
+	public String getTipo() {
+		return "Jogador Veterano";
+	}
+
+	@Override
+	public int getStartingPoints() {
+		return 1000;
+	}
+
+	@Override
+	public boolean podeComprar(double money, Jogo jogo) throws InvalidFieldValueException{
+		if (money < 0 || jogo == null){
+			throw new InvalidFieldValueException();
+		}
+		if (money >= calculaPreco(jogo)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public double calculaPreco(Jogo jogo) {
+		return jogo.getPreco() - this.calculaDesconto(jogo);
 	}
 }

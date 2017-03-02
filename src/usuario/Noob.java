@@ -4,15 +4,8 @@ import jogo.Jogabilidade;
 import jogo.Jogo;
 import excecoes.InvalidFieldValueException;
 
-public class Noob extends TipoUsuario {
+public class Noob implements TipoUsuario {
 	
-	public Noob() throws InvalidFieldValueException  {
-		super();
-		setStartingPoints(0);
-		setTipo("Jogador Noob");
-	}
-	
-	@Override
 	public double calculaDesconto(Jogo jogo){
 		return jogo.getPreco()*0.10;
 	}
@@ -47,6 +40,33 @@ public class Noob extends TipoUsuario {
 			points += 50;
 		}
 		return points;
+	}
+
+	@Override
+	public String getTipo() {
+		return "Usuario Noob";
+	}
+
+	@Override
+	public int getStartingPoints() {
+		return 0;
+	}
+
+	@Override
+	public boolean podeComprar(double money, Jogo jogo) throws InvalidFieldValueException {
+		if (money < 0 || jogo == null){
+			throw new InvalidFieldValueException();
+		}
+		if (money >= calculaPreco(jogo)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public double calculaPreco(Jogo jogo) {
+		return jogo.getPreco() - this.calculaDesconto(jogo);
 	}
 
 

@@ -13,17 +13,29 @@ public class Usuario {
 	private TipoUsuario tipo;
 	private JogoCollection jogos;
 	
+	public Usuario(String username, String nome) throws InvalidFieldValueException{
+		this(username, nome, null);
+	}
+	
 	public Usuario(String username, String nome, TipoUsuario tipoUsuario) throws InvalidFieldValueException  {
+		
 		this.username = username;
 		this.nome = nome;
 		money = 0;
 		
-		this.tipo = tipoUsuario;
+		if (tipoUsuario == null){
+			this.tipo = new Noob();
+		} else {
+			this.tipo = tipoUsuario;
+		}
 		
 		x2pPoints = this.tipo.getStartingPoints();
 		
 		jogos = new JogoCollection();
 	}
+	
+	
+	
 	
 	public String getUsername(){
 		return username;
@@ -52,7 +64,6 @@ public class Usuario {
 	
 	public void mudarTipo(TipoUsuario novoTipo){
 		tipo = novoTipo;
-		x2pPoints += novoTipo.getStartingPoints();
 	}
 	
 	public void addX2p(int x2p) throws InvalidFieldValueException  {
@@ -60,6 +71,14 @@ public class Usuario {
 			throw new InvalidFieldValueException();
 		} else {
 			this.x2pPoints += x2p;
+		}
+	}
+	
+	public void removeX2p(int x2p) throws InvalidFieldValueException  {
+		if (x2p < 0){
+			throw new InvalidFieldValueException();
+		} else {
+			this.x2pPoints -= x2p;
 		}
 	}
 	
@@ -96,7 +115,6 @@ public class Usuario {
 		}
 	}
 
-	@Deprecated
 	public void registraJogada(String nomeDoJogo, int score, boolean zerou) throws FakeHighscoreException, GameNotFoundException, InvalidFieldValueException  {
 		if (nomeDoJogo == null || nomeDoJogo.trim().equals("")){
 			throw new InvalidFieldValueException();
@@ -106,20 +124,22 @@ public class Usuario {
 			throw new GameNotFoundException();
 		} 
 		int points = jogo.registraJogada(score, zerou);
-		points += tipo.recompensar(jogo, score, zerou);
-		points -= tipo.punir(jogo, score, zerou);
 		
 		addX2p(points);
 	}
 	
-	public int recompensar(String nomeDoJogo, int scoreObtido, boolean zerou){
+	public void recompensar(String nomeDoJogo, int scoreObtido, boolean zerou) throws FakeHighscoreException, GameNotFoundException, InvalidFieldValueException{
+		registraJogada(nomeDoJogo, scoreObtido, zerou);
 		Jogo jogo = jogos.get(nomeDoJogo);
-		return tipo.recompensar(jogo, scoreObtido, zerou);		
+		
+		addX2p(tipo.recompensar(jogo, scoreObtido, zerou));		
 	}
 	
-	public int punir(String nomeDoJogo, int scoreObtido, boolean zerou){
+	public void punir(String nomeDoJogo, int scoreObtido, boolean zerou) throws FakeHighscoreException, GameNotFoundException, InvalidFieldValueException{
+		registraJogada(nomeDoJogo, scoreObtido, zerou);
 		Jogo jogo = jogos.get(nomeDoJogo);
-		return tipo.punir(jogo, scoreObtido, zerou);		
+		
+		removeX2p(tipo.punir(jogo, scoreObtido, zerou));		
 	}
 	
 
