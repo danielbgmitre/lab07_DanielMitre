@@ -54,11 +54,24 @@ public class Usuario {
 	}
 	
 	public boolean upgrade() throws InvalidFieldValueException  {
-		if ((tipo.getClass() == Noob.class) && x2pPoints >= 1000){
-			Veterano upgraded = new Veterano();
+		TipoUsuario upgraded;
+		if ((tipo.getClass() == Noob.class) && getX2p() >= 1000){
+			upgraded = new Veterano();
 			mudarTipo(upgraded);
 			return true;
 		}
+		return false;
+	}
+	
+	public boolean downgrade() throws InvalidFieldValueException  {
+		TipoUsuario downgraded;
+		if ((tipo.getClass() == Veterano.class) && getX2p() < 1000){
+			downgraded = new Noob();
+			mudarTipo(downgraded);
+			
+			return true;
+		}
+		System.out.println("mudou de tipo, pontuacao: "+this.getX2p());
 		return false;
 	}
 	
@@ -106,13 +119,15 @@ public class Usuario {
 	public boolean compraJogo(Jogo jogo) throws InvalidFieldValueException  {
 		if (tipo.podeComprar(money, jogo)){
 			this.money -= (tipo.calculaPreco(jogo));
-			//jogos.add(jogo.getClone());
 			jogos.add(jogo);
 			addX2p(tipo.pontosPorCompra(jogo));
+			
 			return true;
 		} else {
 			return false;
 		}
+		
+		
 	}
 
 	public void registraJogada(String nomeDoJogo, int score, boolean zerou) throws FakeHighscoreException, GameNotFoundException, InvalidFieldValueException  {
@@ -132,14 +147,22 @@ public class Usuario {
 		registraJogada(nomeDoJogo, scoreObtido, zerou);
 		Jogo jogo = jogos.get(nomeDoJogo);
 		
-		addX2p(tipo.recompensar(jogo, scoreObtido, zerou));		
+		addX2p(tipo.recompensar(jogo, scoreObtido, zerou));
+		
+		if (getX2p() >= 1000){
+			upgrade();
+		}
 	}
 	
 	public void punir(String nomeDoJogo, int scoreObtido, boolean zerou) throws FakeHighscoreException, GameNotFoundException, InvalidFieldValueException{
 		registraJogada(nomeDoJogo, scoreObtido, zerou);
 		Jogo jogo = jogos.get(nomeDoJogo);
 		
-		removeX2p(tipo.punir(jogo, scoreObtido, zerou));		
+		removeX2p(tipo.punir(jogo, scoreObtido, zerou));
+		
+		if (getX2p() < 1000){
+			downgrade();
+		}
 	}
 	
 

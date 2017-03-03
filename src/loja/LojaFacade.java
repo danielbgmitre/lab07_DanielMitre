@@ -2,6 +2,8 @@ package loja;
 
 import easyaccept.EasyAccept;
 import excecoes.DuplicatedUsernameException;
+import excecoes.FakeHighscoreException;
+import excecoes.GameNotFoundException;
 import excecoes.InvalidFieldValueException;
 import excecoes.TipoUsuarioNotRecognizedException;
 import excecoes.UserNotFoundException;
@@ -35,12 +37,20 @@ public class LojaFacade {
 		return lojacontroller.vendeJogo(jogoNome, preco, jogabilidades, estiloJogo, loginUser);
 	}
 	
-	public boolean upgrade(String login) throws InvalidFieldValueException, UserNotFoundException {
-		return lojacontroller.upgrade(login);
+	public void upgrade(String login) throws InvalidFieldValueException, UserNotFoundException {
+		lojacontroller.upgrade(login);
 	}
 	
 	public int getX2p(String login) throws InvalidFieldValueException, UserNotFoundException{
 		return lojacontroller.getX2p(login);
+	}
+	
+	public void punir(String login, String nomeJogo, int scoreObtido, boolean zerou) throws FakeHighscoreException, GameNotFoundException, InvalidFieldValueException, UserNotFoundException{
+		lojacontroller.punir(login, nomeJogo, scoreObtido, zerou);
+	}
+	
+	public void recompensar(String login, String nomeJogo, int scoreObtido, boolean zerou) throws FakeHighscoreException, GameNotFoundException, InvalidFieldValueException, UserNotFoundException{
+		lojacontroller.recompensar(login, nomeJogo, scoreObtido, zerou);
 	}
 	
 }

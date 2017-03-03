@@ -25,18 +25,8 @@ public class LojaController {
 			return true;
 		}
 	}
-	
-	public void fazUpgrade(String username) throws InvalidFieldValueException, UserNotFoundException{
-		fazUpgrade(usuarios.get(username));
-	}
-	
-	public void fazUpgrade(Usuario user) throws InvalidFieldValueException, UserNotFoundException {
-		if (usuarios.hasUsuario(user)){
-			user.upgrade();
-		} else {
-			throw new UserNotFoundException();
-		}
-	}
+
+
 	
 	public boolean adicionaCredito(String login, double credito) throws InvalidFieldValueException, UserNotFoundException {
 		if (usuarios.hasUsuario(login)){
@@ -63,9 +53,18 @@ public class LojaController {
 		
 	}
 	
-	public boolean upgrade(String login) throws InvalidFieldValueException, UserNotFoundException{
-		return usuarios.get(login).upgrade();
+	public void upgrade(Usuario user) throws InvalidFieldValueException, UserNotFoundException {
+		if (usuarios.hasUsuario(user)){
+			user.upgrade();
+		} else {
+			throw new UserNotFoundException();
+		}
 	}
+	
+	public void upgrade(String username) throws InvalidFieldValueException, UserNotFoundException{
+		upgrade(usuarios.get(username));
+	}
+	
 	
 	public Jogo criaJogo(String jogoNome, double preco, String estiloJogo, String jogabilidades) throws InvalidFieldValueException{
 		return JogoFactory.criaJogo(jogoNome, preco, jogabilidades, estiloJogo);

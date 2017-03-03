@@ -6,7 +6,11 @@ public class Luta extends Jogo {
 
 	public Luta(String nome, double preco) throws InvalidFieldValueException  {
 		super(nome, preco);
-		setTipoJogo("Luta");
+	}
+	
+	@Override
+	public String getTipoJogo(){
+		return "Luta";
 	}
 	
 	@Override
@@ -17,13 +21,13 @@ public class Luta extends Jogo {
 		int bonusX2P = 0;
 		increaseTimesPlayed();
 		
-		if (score > getHighestScore()){
+		if (score >= getHighestScore()){
 			setHighestScore(score);
 			bonusX2P = Math.floorDiv(score, 1000);
 		}
 		
 		if (zerou){
-			increaseTimesFinised();
+			increaseTimesFinished();
 		}
 		
 		return bonusX2P;

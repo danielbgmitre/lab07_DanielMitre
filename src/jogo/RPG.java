@@ -7,9 +7,12 @@ public class RPG extends Jogo {
 
 	public RPG(String nome, double preco) throws InvalidFieldValueException  {
 		super(nome, preco);
-		setTipoJogo("RPG");
 	}
 	
+	@Override
+	public String getTipoJogo(){
+		return "Luta";
+	}
 	
 	@Override
 	public int registraJogada(int score, boolean zerou) throws InvalidFieldValueException, FakeHighscoreException {

@@ -31,7 +31,7 @@ public class JogoFactory {
 		}
 		
 		if (estiloJogo != null){
-			for(String s : estiloJogo.split(" ")){
+			for(String s : jogabilidades.split(" ")){
 				addEstilo(jogo, s);
 			}
 		}

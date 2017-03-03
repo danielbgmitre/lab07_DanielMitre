@@ -5,7 +5,6 @@ import excecoes.*;
 
 
 public class Jogo {	
-	private String tipoJogo = "Tipo padrao de jogo";
 	private String nome;
 	private double preco;
 	
@@ -35,7 +34,7 @@ public class Jogo {
 	}
 	
 	public String getTipoJogo(){
-		return tipoJogo;
+		return "Jogo Default";
 	}
 	
 	/**
@@ -43,13 +42,6 @@ public class Jogo {
 	 * @param s nome do tipo do jogo
 	 * @throws InvalidFieldValueException quando insere um nome invalido
 	 */
-	public void setTipoJogo(String s) throws InvalidFieldValueException {
-		if (s == null || s.trim().equals("")){
-			throw new InvalidFieldValueException();
-		}
-		tipoJogo = s;
-	}
-	
 	
 	
 	/*
@@ -117,7 +109,7 @@ public class Jogo {
 	}
 
 	public void setHighestScore(int score) throws FakeHighscoreException {
-		if (score > this.highestScore) {
+		if (score >= this.highestScore) {
 			this.highestScore = score;
 		} else {
 			throw new FakeHighscoreException();
@@ -136,7 +128,7 @@ public class Jogo {
 		return timesFinished;
 	}
 	
-	public void increaseTimesFinised(){
+	public void increaseTimesFinished(){
 		timesFinished++;
 	}
 
@@ -194,7 +186,7 @@ public class Jogo {
 			setHighestScore(pontos);
 		}
 		if (zerou){
-			increaseTimesFinised();
+			increaseTimesFinished();
 		}
 		
 		return 0; //x2p

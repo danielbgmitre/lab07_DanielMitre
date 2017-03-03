@@ -6,9 +6,12 @@ public class Plataforma extends Jogo {
 
 	public Plataforma(String nome, double preco) throws InvalidFieldValueException {
 		super(nome, preco);
-		setTipoJogo("Plataforma");
 	}
 
+	@Override
+	public String getTipoJogo(){
+		return "Luta";
+	}
 	
 	@Override
 	public int registraJogada(int score, boolean zerou) throws InvalidFieldValueException, FakeHighscoreException{
@@ -23,7 +26,7 @@ public class Plataforma extends Jogo {
 		}
 		
 		if (zerou == true){
-			increaseTimesFinised();
+			increaseTimesFinished();
 			return 20;
 			
 		}
