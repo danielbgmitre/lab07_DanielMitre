@@ -1,1 +1,1 @@
-Esse é o lab06 das aulas de LP2 na UFCG
+Esse é o lab07 das aulas de LP2 na UFCG
